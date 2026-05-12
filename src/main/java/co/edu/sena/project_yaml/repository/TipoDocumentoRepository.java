@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface TipoDocumentoRepository extends MongoRepository<TipoDocumento, String> {
-    @Override
-    Optional<TipoDocumento> findById(String s);
+
+    //Optional<TipoDocumento> findTipoDocumentoBySiglas(String sigla);
+    Optional<TipoDocumento> findBySiglas(String sigla);
 }

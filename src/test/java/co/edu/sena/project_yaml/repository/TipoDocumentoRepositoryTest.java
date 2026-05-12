@@ -18,6 +18,7 @@ class TipoDocumentoRepositoryTest {
     @Test
     @Order(1)
         void insert(){
+
         tipoDocumentoRepository.save(new TipoDocumento(null,"CC","Cedula de cuidadania", Estado.ACTIVO));
 
 

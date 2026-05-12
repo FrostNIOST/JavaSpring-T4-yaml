@@ -2,6 +2,7 @@ package co.edu.sena.project_yaml.domain;
 
 import co.edu.sena.project_yaml.domain.enumeration.Estado;
 import jakarta.annotation.Nonnull;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -14,19 +15,21 @@ import java.io.Serializable;
 public class TipoDocumento implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1L;
 
     @Id
     private String id;
 
     @Nonnull
-    @Indexed(unique = true)
+    @Indexed(unique = true, name = "_idx_type_dni")
     @Field("sigla")
+    @Size(max = 10)
     private String siglas;
 
     @Nonnull
     @Indexed(unique = true, name = "_idx_id_type_document")
-    @Field("tipo_documento")
+    @Field("nombre_documento")
+    @Size(max=100)
     private String nombreDocumento;
 
     @Nonnull

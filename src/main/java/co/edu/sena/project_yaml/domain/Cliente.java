@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Cliente implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1L;
 
     @Id
     private String id;
