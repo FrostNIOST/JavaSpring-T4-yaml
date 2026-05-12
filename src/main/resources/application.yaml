@@ -4,3 +4,6 @@ spring:
   mongodb:
     uri: mongodb://localhost:27017/project-yaml
     database: project-yaml
+  data:
+    mongodb:
+      auto-index-creation: true
