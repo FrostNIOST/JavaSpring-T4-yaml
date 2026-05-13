@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serial;
@@ -19,29 +20,37 @@ public class Cliente implements Serializable {
     @Id
     private String id;
 
-    @Size(max = 50)
     @Nonnull
+    @Size(max = 50)
     @Field("numero_documento")
     private String numeroDocumento;
 
 
     @Nonnull
+    @Size(max = 50)
     @Field ("primer_nombre")
     private String primerNombre;
 
     @Field("segundo_nombre")
+    @Size(max = 50)
     private String segundoNombre;
 
     @Nonnull
+    @Size(max = 50)
     @Field("primer_apellido")
     private String primerApellido;
 
     @Field("segundo_apellido")
+    @Size(max = 50)
     private String segundoApellido;
 
     @DBRef
     @Field("tipo_documento")
     private TipoDocumento tipoDocumento;
+
+    @DocumentReference
+    @Field("cuenta")
+    private Cuenta cuenta;
 
     public Cliente(String id, @Nonnull String numeroDocumento, @Nonnull String primerNombre, String segundoNombre, @Nonnull String primerApellido, String segundoApellido) {
         this.id = id;
@@ -111,5 +120,13 @@ public class Cliente implements Serializable {
 
     public void setTipoDocumento(TipoDocumento tipoDocumento) {
         this.tipoDocumento = tipoDocumento;
+    }
+
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
     }
 }

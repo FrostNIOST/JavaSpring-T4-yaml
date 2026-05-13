@@ -27,17 +27,17 @@ class ClienteRepositoryTest {
     @Order(1)
 
     void insert(){
-        //clienteRepository.save(new Cliente(null, "5661561845", "Andrea", "Mar", "Perez", "Perez"));
         mongoTemplate.dropCollection(Cliente.class);
         tipoDocumentoRepository.deleteAll();
 
-        TipoDocumento tipoDocumento = new TipoDocumento(null, "CC", "Cedula de cuidadania", Estado.ACTIVO);
+        TipoDocumento tipoDocumentoCedula = new TipoDocumento(null, "CC", "Cedula de cuidadania", Estado.ACTIVO);
+        TipoDocumento tipoDocumentoGuardado = tipoDocumentoRepository.insert(tipoDocumentoCedula);
+        assertEquals("CC", tipoDocumentoGuardado.getSiglas());
+        assertNotNull(tipoDocumentoCedula);
 
         Cliente cliente = new Cliente(null, "5661561845", "Andrea", "Mar", "Perez", "Perez");
         Cliente cliente1 = new Cliente(null, "5661561846", "Andrea", "Mar", "Perez", "Perez");
 
-        TipoDocumento tipoDocumentoCedula = tipoDocumentoRepository.findBySiglas("CC").orElse(null);
-        //assertNotNull(tipoDocumentoCedula);
 
         cliente.setTipoDocumento(tipoDocumentoCedula);
         cliente1.setTipoDocumento(tipoDocumentoCedula);
