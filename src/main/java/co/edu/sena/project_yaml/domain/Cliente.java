@@ -142,14 +142,4 @@ public class Cliente implements Serializable {
         this.cuenta = cuenta;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Cliente cliente)) return false;
-        return Objects.equals(id, cliente.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
 }
