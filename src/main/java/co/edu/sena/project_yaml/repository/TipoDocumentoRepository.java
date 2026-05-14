@@ -7,6 +7,5 @@ import java.util.Optional;
 
 public interface TipoDocumentoRepository extends MongoRepository<TipoDocumento, String> {
 
-    //Optional<TipoDocumento> findTipoDocumentoBySiglas(String sigla);
     Optional<TipoDocumento> findBySiglas(String sigla);
 }

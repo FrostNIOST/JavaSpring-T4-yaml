@@ -3,17 +3,28 @@ package co.edu.sena.project_yaml.domain;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
+import co.edu.sena.project_yaml.domain.AllowedCombination;
+
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 @Document(collection = "cliente")
+
+@AllowedCombination
+
+@CompoundIndex(
+        name = "idx_unique_cliente",
+        def = "{'numero_documento': 1, 'tipo_documento': 1}",
+        unique = true
+)
+
 public class Cliente implements Serializable {
 
     @Serial
@@ -46,9 +57,8 @@ public class Cliente implements Serializable {
     @Size(max = 50)
     private String segundoApellido;
 
-    @DBRef
     @Field("tipo_documento")
-    private TipoDocumento tipoDocumento;
+    private TipoDocumentoEmbedded tipoDocumentoEmbedded;
 
     @DocumentReference
     @Field("cuenta")
@@ -89,12 +99,11 @@ public class Cliente implements Serializable {
         this.primerNombre = primerNombre;
     }
 
-    @Nonnull
     public String getSegundoNombre() {
         return segundoNombre;
     }
 
-    public void setSegundoNombre(@Nonnull String segundoNombre) {
+    public void setSegundoNombre(String segundoNombre) {
         this.segundoNombre = segundoNombre;
     }
 
@@ -107,21 +116,20 @@ public class Cliente implements Serializable {
         this.primerApellido = primerApellido;
     }
 
-    @Nonnull
     public String getSegundoApellido() {
         return segundoApellido;
     }
 
-    public void setSegundoApellido(@Nonnull String segundoApellido) {
+    public void setSegundoApellido(String segundoApellido) {
         this.segundoApellido = segundoApellido;
     }
 
-    public TipoDocumento getTipoDocumento() {
-        return tipoDocumento;
+    public TipoDocumentoEmbedded getTipoDocumentoEmbedded() {
+        return tipoDocumentoEmbedded;
     }
 
-    public void setTipoDocumento(TipoDocumento tipoDocumento) {
-        this.tipoDocumento = tipoDocumento;
+    public void setTipoDocumentoEmbedded(TipoDocumentoEmbedded tipoDocumentoEmbedded) {
+        this.tipoDocumentoEmbedded = tipoDocumentoEmbedded;
     }
 
     public Cuenta getCuenta() {
@@ -131,5 +139,4 @@ public class Cliente implements Serializable {
     public void setCuenta(Cuenta cuenta) {
         this.cuenta = cuenta;
     }
-
 }
