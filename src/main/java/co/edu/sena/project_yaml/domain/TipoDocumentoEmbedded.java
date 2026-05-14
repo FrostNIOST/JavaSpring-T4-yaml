@@ -24,4 +24,7 @@ public class TipoDocumentoEmbedded {
     public void setNombreDocumento(String nombreDocumento) {
         this.nombreDocumento = nombreDocumento;
     }
+
+    
+
 }
