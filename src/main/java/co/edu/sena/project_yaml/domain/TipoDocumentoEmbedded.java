@@ -1,6 +1,13 @@
 package co.edu.sena.project_yaml.domain;
 
-public class TipoDocumentoEmbedded {
+import java.io.Serial;
+import java.io.Serializable;
+
+public class TipoDocumentoEmbedded implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String sigla;
     private String nombreDocumento;
 
