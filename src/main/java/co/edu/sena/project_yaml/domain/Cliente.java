@@ -3,8 +3,6 @@ package co.edu.sena.project_yaml.domain;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
@@ -14,14 +12,6 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
-
-@CompoundIndexes({
-        @CompoundIndex(
-                name = "idx_U_cliente_",
-                def = "{'numeroDocumento': 1, 'tipoDocumento': 1}",
-                unique = true
-        )
-})
 
 @Document(collection = "cliente")
 public class Cliente implements Serializable {
