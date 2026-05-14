@@ -85,4 +85,15 @@ public class TipoDocumento implements Serializable {
     public void setEstado(@Nonnull Estado estado) {
         this.estado = estado;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof TipoDocumento that)) return false;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }

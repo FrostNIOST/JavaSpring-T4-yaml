@@ -70,4 +70,14 @@ public class Cuenta  implements Serializable {
         this.cliente = cliente;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Cuenta cuenta)) return false;
+        return Objects.equals(id, cuenta.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
 }
