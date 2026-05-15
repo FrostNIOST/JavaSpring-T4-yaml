@@ -67,7 +67,7 @@ public class Cliente implements Serializable {
     @Field("cuenta")
     private Cuenta cuenta;
 
-    @DBRef
+    @DocumentReference
     @Field("facturas")
     private Set<Factura> facturaSet = new HashSet<>();
 

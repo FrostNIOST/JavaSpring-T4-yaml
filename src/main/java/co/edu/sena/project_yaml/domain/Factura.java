@@ -3,6 +3,7 @@ package co.edu.sena.project_yaml.domain;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
@@ -25,7 +26,7 @@ public class Factura {
     private double iva;
     private double subtotal;
 
-    @DBRef
+    @DocumentReference
     @Field("cliente")
     private Cliente cliente;
 
