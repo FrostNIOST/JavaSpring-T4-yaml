@@ -1,13 +1,18 @@
 package co.edu.sena.project_yaml.domain;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @CompoundIndex(
@@ -17,8 +22,14 @@ import java.util.Objects;
 )
 
 @Document(collection = "factura")
-public class Factura {
+public class Factura implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    @Id
     private String id;
+
     private long numeroFactura;
     private int anio;
     private Date fechaDeEmision;
@@ -26,9 +37,10 @@ public class Factura {
     private double iva;
     private double subtotal;
 
-    @DocumentReference
+    @DBRef
     @Field("cliente")
     private Cliente cliente;
+    private Set<ProductoEmbedded> productos = new HashSet<>();
 
     public Factura(String id, long numeroFactura, int anio, Date fechaDeEmision, double total, double iva, double subtotal) {
         this.id = id;
@@ -104,14 +116,11 @@ public class Factura {
         this.cliente = cliente;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Factura factura)) return false;
-        return Objects.equals(id, factura.id);
+    public Set<ProductoEmbedded> getProductos() {
+        return productos;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
+    public void setProductos(Set<ProductoEmbedded> productos) {
+        this.productos = productos;
     }
 }
