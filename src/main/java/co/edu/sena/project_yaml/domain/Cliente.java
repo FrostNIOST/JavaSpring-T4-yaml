@@ -1,5 +1,6 @@
 package co.edu.sena.project_yaml.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.annotation.Nonnull;
 import jakarta.validation.constraints.Size;
 import org.springframework.data.annotation.Id;
@@ -66,6 +67,8 @@ public class Cliente implements Serializable {
     @Field("cuenta")
     private Cuenta cuenta;
 
+    @DBRef
+    @Field("facturas")
     private Set<Factura> facturaSet = new HashSet<>();
 
     public Cliente(String id, @Nonnull String numeroDocumento, @Nonnull String primerNombre, String segundoNombre, @Nonnull String primerApellido, String segundoApellido) {
