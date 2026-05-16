@@ -1,6 +1,8 @@
 spring:
   application:
     name: project-yaml
+server:
+  port: 8080
   mongodb:
     uri: mongodb://localhost:27017/project-yaml
     database: project-yaml
