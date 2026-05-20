@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -37,10 +38,22 @@ public class TipoDeDocumentoResource {
 
     }
 
-    @PutMapping("/tipo-documento")
-    public String updateTipoDocumento (@RequestBody TipoDocumento tipoDocumento){
-        System.out.println("Se actualiza: " + tipoDocumento.toString());
-        return "Actualizar tipo documento";
+    @PutMapping("/tipo-documento/{id}")
+    public ResponseEntity<TipoDocumento> updateTipoDocumento (@PathVariable(value = "id", required = false) final String id, @RequestBody TipoDocumento tipoDocumento){
+        LOG.debug("se actualiza: {}", tipoDocumento);
+        if (id == null){
+            return ResponseEntity.badRequest().build();
+        }
+        if(!tipoDocumento.getId().equals(id)){
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<TipoDocumento> tipoDocumentoUpdated = tipoDocumentoRepository.findById(id);
+        if (tipoDocumentoUpdated.isPresent()){
+            TipoDocumento tipoDocumentoGuardado = tipoDocumentoRepository.save(tipoDocumento);
+            return ResponseEntity.ok().body(tipoDocumentoGuardado);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping ("/tipo-documento")
