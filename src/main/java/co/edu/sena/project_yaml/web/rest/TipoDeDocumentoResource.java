@@ -4,7 +4,11 @@ import co.edu.sena.project_yaml.domain.TipoDocumento;
 import co.edu.sena.project_yaml.repository.TipoDocumentoRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController
@@ -15,15 +19,22 @@ public class TipoDeDocumentoResource {
 
     private final TipoDocumentoRepository tipoDocumentoRepository;
 
+    private static final Logger LOG = LoggerFactory.getLogger(TipoDeDocumentoResource.class);
+
     public TipoDeDocumentoResource(TipoDocumentoRepository tipoDocumentoRepository) {
         this.tipoDocumentoRepository = tipoDocumentoRepository;
     }
 
     @PostMapping("/tipo-documento")
-    public String createTipoDocumento(@RequestBody TipoDocumento tipoDocumento){
-        tipoDocumentoRepository.save(tipoDocumento);
-        System.out.println("Se crea: " + tipoDocumento.toString());
-        return "Crear tipo documento";
+    public ResponseEntity<TipoDocumento> createTipoDocumento(@RequestBody TipoDocumento tipoDocumento)throws URISyntaxException {
+        LOG.debug("se crea: {}", tipoDocumento);
+        if (tipoDocumento.getId() != null){
+            return ResponseEntity.badRequest().build();
+        }else{
+            TipoDocumento tipoDocumentoGuardado = tipoDocumentoRepository.insert(tipoDocumento);
+            return ResponseEntity.created(new URI("api/tipo-documento" + tipoDocumentoGuardado.getId())).body(tipoDocumentoGuardado);
+        }
+
     }
 
     @PutMapping("/tipo-documento")
