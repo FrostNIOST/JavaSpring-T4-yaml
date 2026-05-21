@@ -2,6 +2,7 @@ package co.edu.sena.project_yaml.web.rest;
 
 import co.edu.sena.project_yaml.domain.TipoDocumento;
 import co.edu.sena.project_yaml.repository.TipoDocumentoRepository;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
@@ -68,8 +69,21 @@ public class TipoDeDocumentoResource {
     }
 
     @DeleteMapping("/tipo-documento/{id}")
-    public String deleteTipoDocumentoById(@PathVariable("id")String id){
-        return "Deleting document by id: "+ id;
+    public ResponseEntity<TipoDocumento> deleteTipoDocumentoById(@PathVariable(value = "id", required = false)final String id, TipoDocumento tipoDocumento){
+        LOG.debug("Se eliminó: {}", tipoDocumento);
+        if(id == null){
+            return ResponseEntity.badRequest().build();
+        }
+        if (!tipoDocumento.getId().equals(id)){
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<TipoDocumento> tipoDocumentoAEliminar = tipoDocumentoRepository.findById(id);
+        if(tipoDocumentoAEliminar.isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }else{
+            TipoDocumento tipoDocumentoEliminado = tipoDocumentoRepository.delete(tipoDocumento);
+            return ResponseEntity.ok().build();
+        }
     }
 
 }
