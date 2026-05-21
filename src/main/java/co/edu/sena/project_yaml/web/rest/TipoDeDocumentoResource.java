@@ -46,6 +46,8 @@ public class TipoDeDocumentoResource {
             return ResponseEntity.badRequest().build();
         }
         if(!tipoDocumento.getId().equals(id)){
+            System.out.println(id);
+            System.out.println(tipoDocumento.getId());
             return ResponseEntity.badRequest().build();
         }
         Optional<TipoDocumento> tipoDocumentoUpdated = tipoDocumentoRepository.findById(id);
@@ -64,12 +66,17 @@ public class TipoDeDocumentoResource {
     }
 
     @GetMapping("/tipo-documento/{id}")
-    public String getTipoDocumentoById(@PathVariable("id") String id){
-        return "Getting document by id: "+ id;
+    public ResponseEntity<TipoDocumento> getTipoDocumentoById(@PathVariable("id") String id){
+        if (id == null){
+            return ResponseEntity.notFound().build();
+        }else {
+            Optional<TipoDocumento> tipoDocumento = tipoDocumentoRepository.findById(id);
+            return tipoDocumento.map(documento -> ResponseEntity.ok().body(documento)).orElseGet(() -> ResponseEntity.badRequest().build());
+        }
     }
 
     @DeleteMapping("/tipo-documento/{id}")
-    public ResponseEntity<TipoDocumento> deleteTipoDocumentoById(@PathVariable(value = "id", required = false)final String id, TipoDocumento tipoDocumento){
+    public ResponseEntity<Void> deleteTipoDocumentoById(@PathVariable(value = "id", required = false)final String id, TipoDocumento tipoDocumento){
         LOG.debug("Se eliminó: {}", tipoDocumento);
         if(id == null){
             return ResponseEntity.badRequest().build();
@@ -81,7 +88,7 @@ public class TipoDeDocumentoResource {
         if(tipoDocumentoAEliminar.isEmpty()){
             return ResponseEntity.badRequest().build();
         }else{
-            TipoDocumento tipoDocumentoEliminado = tipoDocumentoRepository.delete(tipoDocumento);
+            tipoDocumentoRepository.deleteById(id);
             return ResponseEntity.ok().build();
         }
     }
