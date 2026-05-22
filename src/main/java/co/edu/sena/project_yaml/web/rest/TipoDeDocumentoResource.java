@@ -20,12 +20,12 @@ import java.util.Optional;
 
 public class TipoDeDocumentoResource {
 
-    private final TipoDocumentoRepository tipoDocumentoRepository;
 
     private static final Logger LOG = LoggerFactory.getLogger(TipoDeDocumentoResource.class);
+    private final TipoDocumentoService tipoDocumentoService;
 
-    public TipoDeDocumentoResource(TipoDocumentoRepository tipoDocumentoRepository) {
-        this.tipoDocumentoRepository = tipoDocumentoRepository;
+    public TipoDeDocumentoResource(TipoDocumentoService tipoDocumentoService) {
+        this.tipoDocumentoService = tipoDocumentoService;
     }
 
     @PostMapping("/tipo-documento")
@@ -51,9 +51,9 @@ public class TipoDeDocumentoResource {
             System.out.println(tipoDocumento.getId());
             return ResponseEntity.badRequest().build();
         }
-        Optional<TipoDocumento> tipoDocumentoUpdated = tipoDocumentoRepository.findById(id);
+        Optional<TipoDocumento> tipoDocumentoUpdated = tipoDocumentoService.findOne(id);
         if (tipoDocumentoUpdated.isPresent()){
-            TipoDocumento tipoDocumentoGuardado = tipoDocumentoRepository.save(tipoDocumento);
+            TipoDocumento tipoDocumentoGuardado = tipoDocumentoService.save(tipoDocumento);
             return ResponseEntity.ok().body(tipoDocumentoGuardado);
         }else{
             return ResponseEntity.notFound().build();
@@ -62,7 +62,7 @@ public class TipoDeDocumentoResource {
 
     @GetMapping ("/tipo-documento")
     public ResponseEntity<List<TipoDocumento>> getTipoDocumento(){
-        List<TipoDocumento> tipoDocumentos = tipoDocumentoRepository.findAll();
+        List<TipoDocumento> tipoDocumentos = tipoDocumentoService.findAll();
         return ResponseEntity.ok().body(tipoDocumentos);
     }
 
@@ -71,7 +71,7 @@ public class TipoDeDocumentoResource {
         if (id == null){
             return ResponseEntity.notFound().build();
         }else {
-            Optional<TipoDocumento> tipoDocumento = tipoDocumentoRepository.findById(id);
+            Optional<TipoDocumento> tipoDocumento = tipoDocumentoService.findOne(id);
             return tipoDocumento.map(documento -> ResponseEntity.ok().body(documento)).orElseGet(() -> ResponseEntity.badRequest().build());
         }
     }
@@ -85,11 +85,11 @@ public class TipoDeDocumentoResource {
         if (!tipoDocumento.getId().equals(id)){
             return ResponseEntity.badRequest().build();
         }
-        Optional<TipoDocumento> tipoDocumentoAEliminar = tipoDocumentoRepository.findById(id);
+        Optional<TipoDocumento> tipoDocumentoAEliminar = tipoDocumentoService.findOne(id);
         if(tipoDocumentoAEliminar.isEmpty()){
             return ResponseEntity.badRequest().build();
         }else{
-            tipoDocumentoRepository.deleteById(id);
+            tipoDocumentoService.delete(id);
             return ResponseEntity.ok().build();
         }
     }

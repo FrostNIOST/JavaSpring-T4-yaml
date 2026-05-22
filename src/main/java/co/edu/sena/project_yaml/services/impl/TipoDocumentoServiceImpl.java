@@ -11,15 +11,15 @@ import java.util.Optional;
 @Service
 public class TipoDocumentoServiceImpl implements TipoDocumentoService {
 
-    private final TipoDocumentoService tipoDocumentoService;
+    private final TipoDocumentoRepository tipoDocumentoRepository;
 
-    public TipoDocumentoServiceImpl(TipoDocumentoService tipoDocumentoService) {
-        this.tipoDocumentoService = tipoDocumentoService;
+    public TipoDocumentoServiceImpl(TipoDocumentoRepository tipoDocumentoRepository) {
+        this.tipoDocumentoRepository = tipoDocumentoRepository;
     }
 
     @Override
     public TipoDocumento save(TipoDocumento tipoDocumento){
-        return tipoDocumento.insert(tipoDocumento);
+        return tipoDocumentoRepository.insert(tipoDocumento);
     }
 
     @Override
@@ -32,8 +32,15 @@ public class TipoDocumentoServiceImpl implements TipoDocumentoService {
         return tipoDocumentoRepository.findById(id);
     }
 
+    @Override
     public List<TipoDocumento> findAll(){
         return tipoDocumentoRepository.findAll();
+    }
+
+    @Override
+    public void delete(String id){
+        tipoDocumentoRepository.deleteById(id);
+
     }
 
 }
