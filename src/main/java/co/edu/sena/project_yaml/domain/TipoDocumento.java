@@ -44,6 +44,9 @@ public class TipoDocumento implements Serializable {
     @Field("clietes")
     private Set<Cliente> clientes = new HashSet<>();
 
+    public TipoDocumento() {
+    }
+
     public TipoDocumento(String id, @Nonnull String siglas, @Nonnull String nombreDocumento, @Nonnull Estado estado) {
         this.id = id;
         this.siglas = siglas;
